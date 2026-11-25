@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bistro Ember: Rush Hour</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <!-- Top Order Rail & Service HUD -->
+    <header class="top-rail" aria-label="Kitchen Order Board and HUD">
+      <div class="brand-cluster">
+        <div class="brand-badge">
+          <span class="flame-dot" aria-hidden="true"></span>
+          <div>
+            <div class="brand-title">BISTRO EMBER</div>
+            <div class="brand-sub">RUSH HOUR</div>
+          </div>
+        </div>
+
+        <div class="stat-pill timer-pill" id="timer-pill">
+          <span class="stat-label">SHIFT</span>
+          <span class="stat-value" id="hud-timer">02:00</span>
+        </div>
+
+        <div class="stat-pill revenue-pill">
+          <span class="stat-label">REVENUE</span>
+          <span class="stat-value" id="hud-revenue">$0</span>
+          <span class="stat-sub" id="hud-tips">+$0 tips</span>
+        </div>
+      </div>
+
+      <section class="order-rail" id="order-rail" aria-label="Active Customer Orders">
+        <!-- Order tickets populated dynamically -->
+      </section>
+
+      <div class="right-cluster">
+        <div class="combo-pill" id="combo-pill">
+          <span class="combo-mult" id="hud-combo">x1</span>
+          <span class="combo-label">COMBO</span>
+        </div>
+
+        <div class="hud-actions">
+          <button type="button" class="icon-btn" id="btn-audio" title="Toggle Sound (M)" aria-label="Toggle Sound">🔊</button>
+          <button type="button" class="icon-btn" id="btn-recipes" title="Recipe Guide (R)" aria-label="Recipe Guide">📖</button>
+          <button type="button" class="icon-btn" id="btn-restart" title="Restart Shift" aria-label="Restart Shift">↻</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Kitchen Stage -->
+    <main class="stage-wrap">
+      <canvas id="kitchen-canvas" aria-label="Bistro Ember Kitchen Canvas"></canvas>
+
+      <!-- Bottom Quick Controls Bar -->
+      <div class="controls-strip" id="controls-strip">
+        <span class="ctrl-chip"><kbd>WASD</kbd> / <kbd>Click</kbd> Move</span>
+        <span class="ctrl-chip"><kbd>Space</kbd> / <kbd>E</kbd> Interact &amp; Chop</span>
+        <span class="ctrl-chip"><kbd>1</kbd> Grill</span>
+        <span class="ctrl-chip"><kbd>2</kbd> Prep</span>
+        <span class="ctrl-chip"><kbd>3</kbd> Assembly</span>
+        <span class="ctrl-chip"><kbd>4</kbd> Pass Bell</span>
+        <span class="ctrl-chip"><kbd>Q</kbd> Discard</span>
+        <span class="holding-badge" id="holding-badge">Hands: Empty</span>
+      </div>
+
+      <!-- Title Overlay (?shot=start) -->
+      <section class="overlay-backdrop" id="overlay-start" aria-label="Title Screen">
+        <div class="overlay-card start-card">
+          <div class="ticket-pin" aria-hidden="true"></div>
+          <div class="eyebrow-tag">TONIGHT'S DINNER SERVICE</div>
+          <h1 class="hero-title">Bistro Ember</h1>
+          <p class="hero-subtitle">Rush Hour Kitchen</p>
+          <p class="hero-desc">
+            Fire up the charcoal grill, slice farm-fresh produce, stack artisanal burgers &amp; pasta,
+            and ring the golden pass bell before your guests lose patience!
+          </p>
+
+          <div class="start-highlights">
+            <div class="highlight-item">
+              <span class="hi-icon">🔥</span>
+              <span><strong>Sizzling Grill</strong><br>Pull at golden perfection</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hi-icon">🔪</span>
+              <span><strong>Prep Boards</strong><br>Tap Space to speed-chop</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hi-icon">🔔</span>
+              <span><strong>Combo Service</strong><br>Hot streaks multiply tips</span>
+            </div>
+          </div>
+
+          <div class="overlay-actions">
+            <button type="button" class="btn-primary" id="btn-play">Open Kitchen &amp; Cook</button>
+            <button type="button" class="btn-secondary" id="btn-start-recipes">View Recipe Book</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recipe Guide Modal -->
+      <section class="overlay-backdrop hidden" id="overlay-recipes" aria-label="Recipe Guide">
+        <div class="overlay-card recipes-card">
+          <div class="modal-header">
+            <div>
+              <div class="eyebrow-tag">CHEF'S CHEAT SHEET</div>
+              <h2>Bistro Ember Menu</h2>
+            </div>
+            <button type="button" class="icon-btn" id="btn-close-recipes" aria-label="Close Recipe Guide">✕</button>
+          </div>
+          <div class="recipe-grid" id="recipe-guide-grid">
+            <!-- Populated by main.js -->
+          </div>
+          <div class="legend-row">
+            <span class="legend-badge ready">Ready Crate</span>
+            <span class="legend-badge chop">Chop on Prep Board</span>
+            <span class="legend-badge grill">Cook on Grill / Skillet</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- End of Service Scoreboard Overlay (?shot=end) -->
+      <section class="overlay-backdrop hidden" id="overlay-end" aria-label="Shift Complete Scoreboard">
+        <div class="overlay-card end-card">
+          <div class="ticket-pin" aria-hidden="true"></div>
+          <div class="eyebrow-tag">SERVICE COMPLETE</div>
+          <h2 class="end-title">Evening Shift Summary</h2>
+
+          <div class="star-rating" id="end-stars" aria-label="Star Rating">
+            ★ ★ ★ ★ ★
+          </div>
+          <div class="rating-verdict" id="end-verdict">Michelin Star Rush Master!</div>
+
+          <div class="end-stats-grid">
+            <div class="end-stat">
+              <span class="es-label">Total Revenue</span>
+              <span class="es-value gold" id="end-revenue">$0</span>
+            </div>
+            <div class="end-stat">
+              <span class="es-label">Dishes Served</span>
+              <span class="es-value" id="end-served">0</span>
+            </div>
+            <div class="end-stat">
+              <span class="es-label">Best Combo</span>
+              <span class="es-value ember" id="end-best-combo">x1</span>
+            </div>
+            <div class="end-stat">
+              <span class="es-label">Tip Jar Earned</span>
+              <span class="es-value mint" id="end-tips">$0</span>
+            </div>
+          </div>
+
+          <div class="end-breakdown" id="end-breakdown">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div class="overlay-actions">
+            <button type="button" class="btn-primary" id="btn-play-again">Start New Shift</button>
+            <button type="button" class="btn-secondary" id="btn-end-recipes">Recipe Book</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
