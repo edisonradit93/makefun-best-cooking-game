@@ -16,7 +16,7 @@
   - **Assembly Island**: Visual multi-layer dish stacking with live recipe match previews.
   - **Hot Pass & Golden Bell**: Glowing `READY TO SERVE!` plating counter with service bell chime.
 - **Dual Input Support**: Full keyboard (`WASD` / `Arrows`, `Space` / `E` interact, `1-4` quick station dispatch, `Q` discard) and mouse click-to-move / click-station controls.
-- **Deterministic URL Showcase Modes**: Supports `?shot=start|play|end&seed=1`.
+- **Deterministic URL Showcase Modes**: Supports `?shot=start|play|end&seed=1` (cover screenshot order: `1-play.jpg`, `2-start.jpg`, `3-end.jpg`).
 
 ## Local Play
 

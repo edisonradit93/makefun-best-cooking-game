@@ -98,8 +98,8 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 92px;
-  padding: 6px 12px;
+  min-width: 84px;
+  padding: 5px 10px;
   border-radius: 11px;
   background: #281912;
   border: 1px solid #57392a;
@@ -149,11 +149,11 @@ html, body {
 .order-rail {
   display: flex;
   align-items: stretch;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
   min-width: 0;
-  overflow-x: auto;
-  padding: 2px 4px;
+  overflow: hidden;
+  padding: 2px;
 }
 
 .order-ticket {
@@ -161,10 +161,10 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 205px;
-  max-width: 245px;
-  flex: 1 1 215px;
-  padding: 7px 10px 6px;
+  min-width: 195px;
+  max-width: 240px;
+  flex: 1 1 195px;
+  padding: 5px 8px;
   background: linear-gradient(180deg, #fffaf0 0%, #f3e4cb 100%);
   color: var(--ink-dark);
   border-radius: 9px;
@@ -219,23 +219,25 @@ html, body {
 .ticket-ingredients {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   flex-wrap: nowrap;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
+  overflow: hidden;
 }
 
 .ing-chip {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 5px;
+  gap: 2px;
+  padding: 1.5px 4px;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   background: #ead5b6;
   color: #362216;
   border: 1px solid #d1b58d;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .ing-chip.done {
